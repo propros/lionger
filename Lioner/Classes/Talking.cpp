@@ -7,6 +7,8 @@
 //
 
 #include "Talking.hpp"
+#include "Welcome.hpp"
+#include "TheDrama.hpp"
 
 #define time 0.05f
 
@@ -48,28 +50,28 @@ bool Talking::init()
     // add the label as a child to this layer
     this->addChild(label, 1);
     
-    copyFile("testRapid.xml");
-    copyFile("test.xml");
-    readxml("test.xml");
+    auto backgrund=Sprite::create("back.png");
+    backgrund->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
+    addChild(backgrund,-1);
+    
     
     di=Sprite::create("di.png");
-    di->setPosition(Vec2(visibleSize.width/2, visibleSize.height/4));
+    di->setPosition(Vec2(visibleSize.width/2, visibleSize.height/6));
     addChild(di,1);
     
-    content="石家庄t苍，放大！镜和科技发达ui啊是否能卡的岚互娱科技有限公司德克萨斯大";
+    content="石家庄t苍，放大！镜和科技发达ui啊是否能卡的岚 互娱科 ％n技有限公司德克萨斯大";
     
-    labelcontent=Label::createWithSystemFont("", "", 12);
+    labelcontent=Label::createWithSystemFont("", "", 32);
     labelcontent->setAnchorPoint(Vec2(0, 0.5));
     labelcontent->setPosition(Vec2(70,di->getContentSize().height/3 ));
     labelcontent->setTag(5);
-    labelcontent->setWidth(330);
+    labelcontent->setWidth(650);
     labelcontent->setHeight(di->getContentSize().height/1.5);
     labelcontent->setLineBreakWithoutSpace(true);
     di->addChild(labelcontent,1);
     
-    
-    labelname=Label::createWithSystemFont("苍岚", "", 16);
-    labelname->setPosition(Vec2(50, di->getContentSize().height-10 ));
+    labelname=Label::createWithSystemFont("苍岚", "", 30);
+    labelname->setPosition(Vec2(110, di->getContentSize().height-40 ));
     di->addChild(labelname,1);
     
     auto touchlistener=EventListenerTouchOneByOne::create();
@@ -88,14 +90,12 @@ bool Talking::init()
     di->addChild(role2,2);
     
     dizuo=Sprite::create("dizuo.png");
-    dizuo->setScale(0.6);
     dizuo->setAnchorPoint(Vec2(1, 0.8));
     dizuo->setPosition(Vec2(di->getContentSize().width, dizuo->getContentSize().height));
     di->addChild(dizuo);
     
     jiantou=Sprite::create("jiantou.png");
     jiantou->setAnchorPoint(Vec2(0.15, 0.5));
-    jiantou->setScale(0.6);
     jiantou->setPosition(Point(dizuo->getPositionX()-dizuo->getContentSize().width/2,dizuo->getPositionY()));
     di->addChild(jiantou,1);
     
@@ -104,11 +104,38 @@ bool Talking::init()
     auto seq=Sequence::create(moveup,movedown,NULL);
     jiantou->runAction(RepeatForever::create(seq));
     
+    auto back = MenuItemImage::create("backl.png", "backd.png", CC_CALLBACK_1(Talking::backmenuItemCallback, this));
+    back->setPosition(Vec2(back->getContentSize().width/2, visibleSize.height-back->getContentSize().height/2));
     
-    schedule(schedule_selector(Talking::logic),time);
+    Menu *buttonmenu = Menu::create(back,NULL);
+    buttonmenu->setPosition(Point::ZERO);
+    addChild(buttonmenu,3);
+    
+    copyFile("test2.xml");
+    copyFile("test1.xml");
+    
+    int userRead = UserDefault::getInstance()->getIntegerForKey("row");
+    sprintf(tmp,"test%d.xml",userRead);
+    readxml(tmp);
     n = 0 ;
+    schedule(schedule_selector(Talking::logic),time);
     
+    
+  
     return true;
+}
+
+void Talking::backmenuItemCallback(cocos2d::Ref* pSender)
+{
+    Director::getInstance()->replaceScene(TransitionFade::create(0.1, TheDrama::createScene()));
+}
+
+void Talking::setstring(int sc)
+{
+    log("%d--------",sc);
+    sprintf(tmp,"test%d.xml",sc);
+    log("%s",tmp);
+    
 }
 
 void Talking::copyFile(std::string filename)
@@ -116,7 +143,7 @@ void Talking::copyFile(std::string filename)
     FileUtils* fu=FileUtils::getInstance();
     std::string wrpath=fu->getWritablePath();
     wrpath+=filename;
-    log("%s",wrpath.c_str());
+//    log("%s",wrpath.c_str());
     if (!fu->isFileExist(wrpath)) {
         std::string datapath=fu->fullPathForFilename(filename.c_str());
         std::string pfilecontent=fu->getStringFromFile(datapath);

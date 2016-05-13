@@ -12,6 +12,8 @@
 #include "Welcome.hpp"
 #include "Talking.hpp"
 
+const char* ROW_KEY = "row";
+
 Scene* TheDrama :: createScene()
 {
     // 'scene' is an autorelease object
@@ -47,15 +49,26 @@ bool TheDrama:: init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto item1 = MenuItemImage::create("item1_1.png", "item1_0.png", CC_CALLBACK_1(TheDrama::menuItem1Callback, this));
-    item1->setTag(1001);
-    auto item2 = MenuItemImage::create("item2_1.png", "item2_0.png", CC_CALLBACK_1(TheDrama::menuItem2Callback, this));
-    item2->setTag(1002);
-    auto item3 = MenuItemImage::create("item3_1.png", "item3_0.png", CC_CALLBACK_1(TheDrama::menuItem3Callback, this));
-    item3->setTag(1003);
-    auto item4 = MenuItemImage::create("item4_1.png", "item4_0.png", CC_CALLBACK_1(TheDrama::menuItem4Callback, this));
-    item4->setTag(1004);
-    auto item5 = MenuItemImage::create("item5_1.png", "item5_0.png", CC_CALLBACK_1(TheDrama::menuItem5Callback, this));
+    auto item1 = MenuItemImage::create("item1_0.png", "item1_0.png","item1_00.png", CC_CALLBACK_1(TheDrama::menuItem1Callback, this));
+//    item1->setTag(1001);
+    auto item2 = MenuItemImage::create("item2_0.png", "item2_0.png","item2_00.png", CC_CALLBACK_1(TheDrama::menuItem2Callback, this));
+//    item2->setTag(1002);
+    auto item3 = MenuItemImage::create("item3_0.png", "item3_0.png","item3_00.png", CC_CALLBACK_1(TheDrama::menuItem3Callback, this));
+//    item3->setTag(1003);
+    auto item4 = MenuItemImage::create("item4_0.png", "item4_0.png","item4_00.png", CC_CALLBACK_1(TheDrama::menuItem4Callback, this));
+//    item4->setTag(1004);
+    auto item5 = MenuItemImage::create("item5_0.png", "item5_0.png","item5_00.png", CC_CALLBACK_1(TheDrama::menuItem5Callback, this));
+     auto item6 = MenuItemImage::create("item5_0.png", "item5_0.png","item5_00.png", CC_CALLBACK_1(TheDrama::menuItem5Callback, this));
+     auto item7 = MenuItemImage::create("item5_0.png", "item5_0.png","item5_00.png", CC_CALLBACK_1(TheDrama::menuItem5Callback, this));
+  
+    
+//    item1->setEnabled(false);
+    item2->setEnabled(false);
+    item3->setEnabled(false);
+    item4->setEnabled(false);
+    item5->setEnabled(false);
+    item6->setEnabled(false);
+    item7->setEnabled(false);
     item5->setTag(1005);
     
     auto back = MenuItemImage::create("backl.png", "backd.png", CC_CALLBACK_1(TheDrama::backmenuItemCallback, this));
@@ -71,6 +84,8 @@ bool TheDrama:: init()
     menu->addMenuItem(item3);
     menu->addMenuItem(item4);
     menu->addMenuItem(item5);
+    menu->addMenuItem(item6);
+    menu->addMenuItem(item7);
     menu->setPosition(visibleSize/2);
     this->addChild(menu, 2);
     
@@ -81,6 +96,7 @@ bool TheDrama:: init()
         sprite[i] = Sprite::create(str);
         sprite[i]->setAnchorPoint(Vec2(0.5f, 0.5f));
         sprite[i]->setPosition(visibleSize / 2);
+        
         this->addChild(sprite[i]);
     }
     hideAllSprite();
@@ -153,11 +169,11 @@ ssize_t TheDrama::numberOfCellsInTableView(TableView *table)
 
 void TheDrama::tableCellTouched(TableView* table, TableViewCell* cell)
 {
-    auto scene=Scene::create();
-    auto ss=SelectDrama::create();
-    ss->setstring((int)cell->getIdx()+1);
-    
-    scene->addChild(ss);
+//    auto scene=Scene::create();
+//    auto ss=Talking::create();
+//    ss->setstring((int)cell->getIdx()+1);
+//    scene->addChild(ss);
+    UserDefault::getInstance()->setIntegerForKey(ROW_KEY, (float)cell->getIdx()+1);
     
     log("%zd:touched",cell->getIdx()+1);
     
@@ -165,9 +181,6 @@ void TheDrama::tableCellTouched(TableView* table, TableViewCell* cell)
     cell->runAction(move);
     
     Director::getInstance()->replaceScene(TransitionFade::create(0.8, Talking::createScene(),Color3B(100, 100, 100)));
-    
-    
-    
     
     
 }//cell 点击以后的回调函数
@@ -197,17 +210,14 @@ void TheDrama::menuItem1Callback(cocos2d::Ref* pSender){
 void TheDrama::menuItem2Callback(cocos2d::Ref* pSender){
     hideAllSprite();
      bgkuang->setVisible(true);
-    sprite[1]->setVisible(true);
 }
 void TheDrama::menuItem3Callback(cocos2d::Ref* pSender){
     hideAllSprite();
      bgkuang->setVisible(true);
-    sprite[2]->setVisible(true);
 }
 void TheDrama::menuItem4Callback(cocos2d::Ref* pSender){
     hideAllSprite();
      bgkuang->setVisible(true);
-    sprite[3]->setVisible(true);
 }
 void TheDrama::menuItem5Callback(cocos2d::Ref* pSender){
     hideAllSprite();

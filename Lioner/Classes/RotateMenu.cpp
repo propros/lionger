@@ -9,16 +9,16 @@
 #include "RotateMenu.hpp"
 #include <math.h>
 #define PI acos(-1)
-USING_NS_CC;
-bool RotateMenu::init(){
+
+bool RotateMenu::init()
+{
     if (!Layer::init())
         return false;
-    
     _angle = 0.0;
     this->ignoreAnchorPointForPosition(false);
     _selectedItem = nullptr;
     Size s = Director::getInstance()->getWinSize();
-    this->setContentSize(s/3*2);
+    this->setContentSize(s/5*4);
     this->setAnchorPoint(Vec2(0.5f, 0.5f));
     auto listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(RotateMenu::onTouchBegan,this);
@@ -28,11 +28,29 @@ bool RotateMenu::init(){
     return true;
 };
 
+void RotateMenu::onEnterTransitionDidFinish()
+{
+    Layer::onEnterTransitionDidFinish();
+    
+    
+    //选中的边框
+    auto BK1 = Sprite::create("flashs.png");
+    MenuItem* si=getCurrentItem();
+    auto menuSize =getContentSize();
+    
+    Vec2 v=si->getPosition();
+    BK1->setPosition(Vec2(v.x,v.y));
+    //BK1->setScale(0.76, 0.76);
+    BK1->setTag(1001);
+    this->addChild(BK1);
+    
+}
+
 void RotateMenu::addMenuItem(cocos2d::MenuItem *item){
-    item->setPosition(this->getContentSize() / 2);
+    item->setPosition(this->getContentSize()/2);
     this->addChild(item);
     _items.pushBack(item);
-    setUnitAngle(2 * PI / _items.size());   //设置单位弧度
+    setUnitAngle(2 * PI / _items.size()); //设置单位弧度
     reset();
     updatePositionWithAnimation();
     return;
@@ -75,6 +93,8 @@ void RotateMenu::updatePositionWithAnimation(){//更新位置，有动画
     scheduleOnce(schedule_selector(RotateMenu::actionEndCallBack), animationDuration);
     return;
 }
+
+
 void RotateMenu::reset(){ //重置  操作有旋转角度设为0
     _angle = 0;
 }
@@ -105,16 +125,17 @@ MenuItem * RotateMenu::getCurrentItem(){//返回被选中的item
     return _items.at(index);
 }
 
-
 bool RotateMenu::onTouchBegan(Touch* touch, Event* event){
+    
     //先停止所有可能存在的动作
     for (int i = 0; i < _items.size(); i++)
         _items.at(i)->stopAllActions();
-    if (_selectedItem)
-        _selectedItem->unselected();
+//    if (_selectedItem)
+//        _selectedItem->unselected();
     auto position = this->convertToNodeSpace(touch->getLocation());
     auto size = this->getContentSize();
     auto rect = Rect(0, 0, size.width, size.height);
+    this->getChildByTag(1001)->setVisible(false);
     if (rect.containsPoint(position)){
         return true;
     }
@@ -151,6 +172,18 @@ void RotateMenu::rectify(bool forward){ //位置矫正  修改角度 forward为�
 
 void RotateMenu::actionEndCallBack(float dx){//动画完结调用函数
     _selectedItem = getCurrentItem();
-    if(_selectedItem)
-        _selectedItem->selected();
+    if(_selectedItem){
+    this->getChildByTag(1001)->setVisible(true);
+    }
+//
 }
+
+
+
+
+
+
+
+
+
+

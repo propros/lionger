@@ -10,8 +10,9 @@
 #define RotateMenu_hpp
 
 #include <stdio.h>
+#include <iostream>
 #include "cocos2d.h"
-using namespace cocos2d;
+USING_NS_CC;
 class RotateMenu: public Layer
 {
 public:
@@ -57,7 +58,12 @@ private:
     //当前被选择的item
     cocos2d::MenuItem *_selectedItem;
     //动画运行时间
-    float animationDuration = 0.1f;
+    float animationDuration = 0.2f;
+    
+    //延时
+    virtual void onEnterTransitionDidFinish();
+    
+
 };
 
 #endif /* RotateMenu_hpp */

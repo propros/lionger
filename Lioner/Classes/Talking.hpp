@@ -50,6 +50,11 @@ public:
     void readxml(std::string filename);
     void logic(float t);
     virtual bool onTouchBegan(Touch *touch, Event *unused_event);
+    void backmenuItemCallback(cocos2d::Ref* pSender);
+    
+    void setstring(int sc);
+    __String* strings;
+    char tmp[50];
     
 };
 
