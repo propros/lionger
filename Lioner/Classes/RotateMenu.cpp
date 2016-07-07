@@ -39,7 +39,7 @@ void RotateMenu::onEnterTransitionDidFinish()
     auto menuSize =getContentSize();
     
     Vec2 v=si->getPosition();
-    BK1->setPosition(Vec2(v.x,v.y));
+    BK1->setPosition(Vec2(v.x,v.y-5));
     //BK1->setScale(0.76, 0.76);
     BK1->setTag(1001);
     this->addChild(BK1);

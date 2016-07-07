@@ -55,8 +55,7 @@ bool Landing::init()
     EventDispatcher * eventDispatcher=Director::getInstance()->getEventDispatcher();
     eventDispatcher->addEventListenerWithSceneGraphPriority(listener, getChildByTag(101));
 
-    
-
+   
     return true;
     
 }

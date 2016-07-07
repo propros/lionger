@@ -36,9 +36,137 @@ bool Welcome::init()
 //    schedule(schedule_selector(GameScene::myClock),1.0f );
     scheduleUpdate();
     
+//     UserDefault::getInstance()->setIntegerForKey("levl",3);
+//    int a = UserDefault::getInstance()->getIntegerForKey("levl");
+//    log("%d",a);
+//    log("%s",UserDefault::getInstance()->getXMLFilePath().c_str());
+    
+    
+//    roleturn();
+    
+    auto dispatcher=Director::getInstance()->getEventDispatcher();
+    auto touchListener=EventListenerTouchOneByOne::create();
+    touchListener->onTouchBegan=CC_CALLBACK_2(Welcome::onTouchBegan, this);
+    touchListener->onTouchMoved=CC_CALLBACK_2(Welcome::onTouchMoved, this);
+    touchListener->onTouchEnded=CC_CALLBACK_2(Welcome::onTouchEnded, this);
+    dispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+
+    number=0;
+    distance=0;
     return true;
 }
 
+
+
+bool Welcome::onTouchBegan(cocos2d::Touch* pthouch,cocos2d::Event* pEvent)
+{
+    
+    auto point2=pthouch->getLocation();
+    
+    return true;
+}
+
+void Welcome::onTouchMoved(Touch *touch, Event *unused_event)
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    auto point=touch->getDelta();
+    log("%f",point.x);
+    
+    if (point.x>=300) {
+        number++;
+        if (number>3) {
+            number=0;
+        }
+        
+        
+    }else if (point.x<=-300) {
+        number--;
+        if (number<-3) {
+            number=0;
+        }
+        
+    }
+    switch (number) {
+        case -1:
+            nanzhu->removeFromParent();
+            nanzhu=Sprite::create("ui/nanzhu4.png");
+            nanzhu->setAnchorPoint(Vec2(0.15, 0.5));
+            nanzhu->setScale(0.46);
+            nanzhu->setPosition(Vec2(bian1->getContentSize().width, visibleSize.height/10-50));
+            addChild(nanzhu);
+            break;
+        case -2:
+            nanzhu->removeFromParent();
+            nanzhu=Sprite::create("ui/nanzhu3.png");
+            nanzhu->setAnchorPoint(Vec2(0.15, 0.5));
+            nanzhu->setScale(0.46);
+            nanzhu->setPosition(Vec2(bian1->getContentSize().width, visibleSize.height/10-50));
+            addChild(nanzhu);
+            break;
+        case -3:
+            nanzhu->removeFromParent();
+            nanzhu=Sprite::create("ui/nanzhu2.png");
+            nanzhu->setAnchorPoint(Vec2(0.15, 0.5));
+            //            nanzhu->setScale(0.46);
+            nanzhu->setPosition(Vec2(bian1->getContentSize().width-nanzhu->getContentSize().width/8, visibleSize.height/10-30));
+            addChild(nanzhu);
+            break;
+        case 0:
+            nanzhu->removeFromParent();
+            nanzhu=Sprite::create("ui/nanzhu1.png");
+            nanzhu->setAnchorPoint(Vec2(0.15, 0.5));
+            //            nanzhu->setScale(0.46);
+            nanzhu->setPosition(Vec2(bian1->getContentSize().width, visibleSize.height/5));
+            addChild(nanzhu);
+            break;
+        case 1:
+            nanzhu->removeFromParent();
+            nanzhu=Sprite::create("ui/nanzhu2.png");
+            nanzhu->setAnchorPoint(Vec2(0.15, 0.5));
+            //            nanzhu->setScale(0.46);
+            nanzhu->setPosition(Vec2(bian1->getContentSize().width-nanzhu->getContentSize().width/8, visibleSize.height/10-30));
+            addChild(nanzhu);
+            break;
+        case 2:
+            nanzhu->removeFromParent();
+            nanzhu=Sprite::create("ui/nanzhu3.png");
+            nanzhu->setAnchorPoint(Vec2(0.15, 0.5));
+            nanzhu->setScale(0.46);
+            nanzhu->setPosition(Vec2(bian1->getContentSize().width, visibleSize.height/10-50));
+            addChild(nanzhu);
+            break;
+        case 3:
+            nanzhu->removeFromParent();
+            nanzhu=Sprite::create("ui/nanzhu4.png");
+            nanzhu->setAnchorPoint(Vec2(0.15, 0.5));
+            nanzhu->setScale(0.46);
+            nanzhu->setPosition(Vec2(bian1->getContentSize().width, visibleSize.height/10-50));
+            addChild(nanzhu);
+            break;
+            
+            
+        default:
+            break;
+    }
+
+    
+   
+   
+    
+    
+}
+void Welcome::onTouchEnded(cocos2d::Touch* pTouch,cocos2d::Event* pEvent)
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    auto point=pTouch->getDelta();
+//    point2= pTouch->getPreviousLocation();
+
+    
+    
+    
+}
 
 
 void Welcome::onEnter()
@@ -50,6 +178,7 @@ void Welcome::onEnter()
 void Welcome::onExit()
 {
     Layer::onExit();
+//    _eventDispatcher->removeEventListener(_touchListener);
     
 }
 
@@ -82,7 +211,6 @@ void Welcome::Uibutton()
     
     bian2=Sprite::create("ui/bian2.png");
     
-
    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -175,13 +303,14 @@ void Welcome::Uibutton()
     ct->setType(ProgressTimer::Type::RADIAL);
     
     //男主
-    auto nanzhu=Sprite::create("ui/nanzhu1.png");
+    nanzhu=Sprite::create("ui/nanzhu1.png");
     nanzhu->setAnchorPoint(Vec2(0.15, 0.5));
-    nanzhu->setScale(0.46);
+//    nanzhu->setScale(0.46);
+    nanzhu->setDirty(true);
     
     nanzhu->setPosition(Vec2(-nanzhu->getContentSize().width, visibleSize.height/10-50));
     addChild(nanzhu);
-    auto nanzhumove=MoveTo::create(0.5, Vec2(bian1->getContentSize().width, visibleSize.height/10-50));
+    auto nanzhumove=MoveTo::create(0.5, Vec2(bian1->getContentSize().width, visibleSize.height/5 ));
     nanzhu->runAction(nanzhumove);
     
 }
@@ -196,7 +325,7 @@ void Welcome::juqingmoshi(Ref* pSender)
 {
     
     log("剧情模式");
-    Director::getInstance()->replaceScene(TransitionFade::create(0.8, TheDrama::createScene()));
+    Director::getInstance()->replaceScene(TransitionFade::create(0.38, TheDrama::createScene()));
     removebtn();
 }
 

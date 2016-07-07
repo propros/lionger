@@ -87,7 +87,30 @@ bool TheDrama:: init()
     menu->addMenuItem(item6);
     menu->addMenuItem(item7);
     menu->setPosition(visibleSize/2);
+
     this->addChild(menu, 2);
+    
+    /* 
+     触摸吞噬
+     auto layer = LayerColor::create(Color4B(100,100,100,100));
+     auto callback = [](Touch * ,Event *)
+     {
+     return true;
+     };
+     
+     auto listener = EventListenerTouchOneByOne::create();
+     
+     listener->onTouchBegan = callback;
+     
+     listener->setSwallowTouches(true);
+     
+     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener,layer);
+     
+     //_eventDispatcher->addEventListenerWithFixedPriority(listener,-1);
+     
+     this->addChild(layer,2);
+     */
+
     
     
     for (int i = 0; i < 5; i++){
@@ -106,14 +129,14 @@ bool TheDrama:: init()
 
 void TheDrama::tableview()
 {
-    Size visiblesize=Director::getInstance()->getVisibleSize();
+//    Size visiblesize=Director::getInstance()->getVisibleSize();
     auto sprite=Sprite::create("ui/UIbutton/table1.png");
 
     
-    table=TableView::create(this,Size(sprite->getContentSize().width,5.5*sprite->getContentSize().height));
+    table=TableView::create(this,Size(6*sprite->getContentSize().width,sprite->getContentSize().height));
     table->setDelegate(this);
-    table->setDirection(TableView::Direction::VERTICAL);
-    table->setVerticalFillOrder(TableView::VerticalFillOrder::TOP_DOWN);
+    table->setDirection(TableView::Direction::HORIZONTAL);
+//    table->setVerticalFillOrder(TableView::VerticalFillOrder::TOP_DOWN);
     table->setPosition(Point(bgkuang->getPositionX()-bgkuang->getContentSize().width/2,bgkuang->getPositionY()-bgkuang->getContentSize().height/2));
 
     this->addChild(table,4);
@@ -176,9 +199,6 @@ void TheDrama::tableCellTouched(TableView* table, TableViewCell* cell)
     UserDefault::getInstance()->setIntegerForKey(ROW_KEY, (float)cell->getIdx()+1);
     
     log("%zd:touched",cell->getIdx()+1);
-    
-    auto move= MoveTo::create(cell->getIdx(), Vec2(100, cell->getPositionY()));
-    cell->runAction(move);
     
     Director::getInstance()->replaceScene(TransitionFade::create(0.8, Talking::createScene(),Color3B(100, 100, 100)));
     

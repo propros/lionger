@@ -133,7 +133,7 @@ bool PlayLayer::onTouchBegan(Touch *touch, Event *unused)
     return m_isTouchEnable;
 }
 
-
+// 移动球
 void PlayLayer::onTouchMoved(Touch *touch, Event *unused)
 {
     if (!m_srcSushi || !m_isTouchEnable) {
@@ -323,6 +323,7 @@ void PlayLayer::onTouchMoved(Touch *touch, Event *unused)
     // not a useful movement
 }
 
+//交换球
 void PlayLayer::swapSushi()
 {
     m_isAnimationing = true;
@@ -403,7 +404,7 @@ void PlayLayer::swapSushi()
                                       MoveTo::create(time, posOfDest),
                                       NULL));
 }
-
+// 更新
 void PlayLayer::update(float dt)
 {
     // check if animationing
@@ -640,8 +641,6 @@ void PlayLayer::getupColChain(SushiSprite *sushi, std::list<SushiSprite *> &chai
     }
     
 }
-
-
 
 // 纵向的
 void PlayLayer::getRowChain(SushiSprite *sushi, std::list<SushiSprite *> &chainList)
@@ -1235,8 +1234,14 @@ void PlayLayer::initMatrix()
 void PlayLayer::createAndDropSushi(int row, int col)
 {
     Size size = Director::getInstance()->getWinSize();
+    SushiSprite *sushi;
+    while (1) {
+        sushi = SushiSprite::create(row, col);
+        if (isWellZodiac(sushi, row, col)) {
+            break;
+        }
+    }
     
-    SushiSprite *sushi = SushiSprite::create(row, col);
     
     // create animation
     
@@ -1250,6 +1255,30 @@ void PlayLayer::createAndDropSushi(int row, int col)
     m_matrix[row * m_width + col] = sushi;
     
 }
+
+bool PlayLayer::isWellZodiac (SushiSprite* sushi, int row, int col)
+{
+    /***************************************************************************/
+    bool m_bWellRow = true;
+    bool m_bWellCol = true;
+    if (row>1)
+    {
+        if ((sushi->getImgIndex() == m_matrix[(row-1)* m_width+col]->getImgIndex() ) && (sushi->getImgIndex() == m_matrix[(row-1)* m_width+col]->getImgIndex()))
+        {
+            m_bWellRow = false;
+        }
+    }
+    if (col>1)
+    {
+        if ((sushi->getImgIndex() == m_matrix[row* m_width+col-1]->getImgIndex() ) && (sushi->getImgIndex() == m_matrix[row* m_width+col-1]->getImgIndex()))
+        {
+            m_bWellCol = false;
+        }
+    }
+    return m_bWellCol&&m_bWellRow;
+
+}
+
 
 Point PlayLayer::positionOfItem(int row, int col)
 {

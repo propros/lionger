@@ -56,6 +56,7 @@ private:
     
 public:
     CustomCommand _customCommand;
+    bool isWellZodiac (SushiSprite* sushi, int row, int col);
 };
 
 #endif /* defined(__PlayLayer_H__) */

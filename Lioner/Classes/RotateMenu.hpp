@@ -58,7 +58,7 @@ private:
     //当前被选择的item
     cocos2d::MenuItem *_selectedItem;
     //动画运行时间
-    float animationDuration = 0.2f;
+    float animationDuration = 0.5f;
     
     //延时
     virtual void onEnterTransitionDidFinish();

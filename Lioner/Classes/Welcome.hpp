@@ -11,12 +11,13 @@
 
 #include <stdio.h>
 #include "cocos2d.h"
-#include "ui/CocosGUI.h"
-
-using namespace cocos2d::ui;
+//#include "ui/CocosGUI.h"
+#include "cocos-ext.h"
+USING_NS_CC_EXT;
+//using namespace cocos2d::ui;
 USING_NS_CC;
 
-class Welcome : public cocos2d::Layer
+class Welcome : public cocos2d::Layer , ScrollViewDelegate
 {
 public:
     
@@ -37,6 +38,9 @@ public:
     Node* nodeyou;
     int i;
     
+    int number;
+    float distance;
+    
     void shangchengye(Ref* pSender);
     void wuxianmoshi(Ref* psender);
     void shoucangguan(Ref* psender);
@@ -45,7 +49,9 @@ public:
     void removebtn();
     void menuleave();
     
+    Sprite* nanzhu;
     
+
     
     MenuItemImage* shoucang;
     MenuItemImage* juqing;
@@ -59,7 +65,16 @@ public:
     Sprite* sprite;
     Sprite* dakuang;
     void out(float t);
+    
+    
+    ScrollView* scrollView;
+    virtual bool onTouchBegan(cocos2d::Touch* pthouch,cocos2d::Event* pEvent);
+    virtual void onTouchMoved(Touch *touch, Event *unused_event);
+    virtual void onTouchEnded(cocos2d::Touch* pTouch,cocos2d::Event* pEvent);
+    
+    
     CREATE_FUNC(Welcome);
+    
 };
 
 

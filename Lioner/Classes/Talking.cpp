@@ -127,7 +127,7 @@ bool Talking::init()
 
 void Talking::backmenuItemCallback(cocos2d::Ref* pSender)
 {
-    Director::getInstance()->replaceScene(TransitionFade::create(0.1, TheDrama::createScene()));
+    Director::getInstance()->replaceScene(TransitionFade::create(0.4, TheDrama::createScene()));
 }
 
 void Talking::setstring(int sc)

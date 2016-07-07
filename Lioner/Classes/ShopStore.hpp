@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "cocos2d.h"
+#include "Lambda.hpp"
 USING_NS_CC;
 class ShopStore : public cocos2d::Layer
 {
@@ -22,6 +23,8 @@ public:
 
     // implement the "static node()" method manually
     CREATE_FUNC(ShopStore);
+    Lambda* lambda;
+    
     
     void backmenuItemCallback(cocos2d::Ref* pSender);
     

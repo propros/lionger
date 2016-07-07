@@ -37,10 +37,22 @@ bool ShopStore:: init()
     auto back = MenuItemImage::create("backl.png", "backd.png", CC_CALLBACK_1(ShopStore::backmenuItemCallback, this));
     back->setPosition(Vec2(back->getContentSize().width/2, visibleSize.height-back->getContentSize().height/2));
     
+    
+    
     Menu *buttonmenu = Menu::create(back,NULL);
     buttonmenu->setPosition(Point::ZERO);
     addChild(buttonmenu,3);
-        return true;
+    
+    
+    this->lambda=new Lambda();
+    lambda->setPosition(visibleSize.width/2,visibleSize.height/2);
+    addChild(lambda,2);
+    lambda->action1();
+    
+    
+    
+    
+    return true;
 }
 
 void ShopStore::backmenuItemCallback(cocos2d::Ref* pSender)
