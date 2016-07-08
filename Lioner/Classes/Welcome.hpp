@@ -33,14 +33,9 @@ public:
     
     
     void Uibutton();
-    
     Node* nodezuo;
     Node* nodeyou;
-    int i;
-    
-    int number;
-    float distance;
-    
+
     void shangchengye(Ref* pSender);
     void wuxianmoshi(Ref* psender);
     void shoucangguan(Ref* psender);
@@ -48,10 +43,6 @@ public:
     void juqingmoshi(Ref* psender);
     void removebtn();
     void menuleave();
-    
-    Sprite* nanzhu;
-    
-
     
     MenuItemImage* shoucang;
     MenuItemImage* juqing;
@@ -72,6 +63,9 @@ public:
     virtual void onTouchMoved(Touch *touch, Event *unused_event);
     virtual void onTouchEnded(cocos2d::Touch* pTouch,cocos2d::Event* pEvent);
     
+    int number; //男主数
+    float distance;  //滑动距离
+    Sprite* nanzhu;
     
     CREATE_FUNC(Welcome);
     

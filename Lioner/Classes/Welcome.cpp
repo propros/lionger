@@ -62,25 +62,38 @@ bool Welcome::onTouchBegan(cocos2d::Touch* pthouch,cocos2d::Event* pEvent)
 {
     
     auto point2=pthouch->getLocation();
+    distance=point2.x;
+    log("getlocation    %f",distance);
     
     return true;
 }
 
 void Welcome::onTouchMoved(Touch *touch, Event *unused_event)
 {
+   
+    
+    
+}
+void Welcome::onTouchEnded(cocos2d::Touch* pTouch,cocos2d::Event* pEvent)
+{
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    auto point=touch->getDelta();
-    log("%f",point.x);
+    auto point=pTouch->getDelta();
+    auto point2=pTouch->getPreviousLocation();
+    log("Previous   %f",point2.x);
+    log("getdelta   %f",point.x);
     
-    if (point.x>=300) {
+    distance=distance-point2.x;
+    log("distace    %f",distance);
+    
+    if (distance>=100) {
         number++;
         if (number>3) {
             number=0;
         }
         
         
-    }else if (point.x<=-300) {
+    }else if (distance<=-100) {
         number--;
         if (number<-3) {
             number=0;
@@ -149,19 +162,8 @@ void Welcome::onTouchMoved(Touch *touch, Event *unused_event)
         default:
             break;
     }
+    
 
-    
-   
-   
-    
-    
-}
-void Welcome::onTouchEnded(cocos2d::Touch* pTouch,cocos2d::Event* pEvent)
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    auto point=pTouch->getDelta();
-//    point2= pTouch->getPreviousLocation();
 
     
     
